@@ -1,0 +1,501 @@
+/*! CSS Used from: Embedded */
+.dWdTjI {
+  -webkit-box-flex: 0 !important;
+  flex-grow: 0 !important;
+  display: flex !important;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  -webkit-box-pack: start !important;
+  justify-content: flex-start !important;
+}
+
+.kMghud {
+  margin-bottom: 2rem !important;
+}
+
+.fQeqDH {
+  width: 100% !important;
+}
+
+.kKMcfZ {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0.4rem !important;
+  overflow: hidden !important;
+}
+
+.gZEluP {
+  position: absolute !important;
+  inset: 0px !important;
+  border-radius: 0.4rem !important;
+}
+
+.ecNvzR {
+  padding: 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  background-color: var(--color-background-overlay) !important;
+  color: var(--color-text-overlay) !important;
+  border-radius: 0.4rem !important;
+}
+
+.jxhgyn {
+  -webkit-box-align: center !important;
+  align-items: center !important;
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: center !important;
+  width: 100% !important;
+  -webkit-box-flex: 1 !important;
+  flex-grow: 1 !important;
+  overflow: hidden !important;
+}
+
+.fgogfP {
+  padding-bottom: 0.5rem !important;
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  width: 100% !important;
+}
+
+.cQimXH {
+  -webkit-box-pack: justify !important;
+  justify-content: space-between !important;
+  display: flex !important;
+}
+
+.hiuuyA {
+  display: flex !important;
+}
+
+.doAJTH {
+  display: inline-flex !important;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+}
+
+.jQuWOD {
+  position: absolute !important;
+  z-index: var(--z-index-default) !important;
+}
+
+.dLbApV {
+  padding-left: 1rem !important;
+}
+
+.jtuuVy {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--color-text-overlay) !important;
+  font-weight: var(--font-weight-semibold) !important;
+}
+
+.iDjrEF {
+  display: block !important;
+  border-radius: 9000px !important;
+  width: 100% !important;
+}
+
+.dayxYV {
+  width: 100% !important;
+  position: relative !important;
+}
+
+.hkuEHO {
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+.bjmXfC {
+  position: absolute !important;
+}
+
+.cPGzsQ {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.dsswUS {
+  padding-bottom: 100%;
+}
+
+.kECpQh {
+  padding-bottom: 56.25%;
+}
+
+.kPofwJ {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.kPofwJ> :not(.ScAspectSpacer-sc-1sw3lwy-0) {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  min-height: 100%;
+  top: 0px;
+}
+
+.hTOGDl {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.hTOGDl> :not(.ScAspectSpacer-sc-1sw3lwy-0) {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  min-height: 100%;
+  top: 0px;
+}
+
+.cXxJjc {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.ifdSJl {
+  fill: currentcolor;
+}
+
+.fbCCvx {
+  width: 2rem;
+  height: 2rem;
+}
+
+.ffyxRu {
+  display: inline-flex;
+  position: relative;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-medium);
+  font-size: var(--button-text-default);
+  height: var(--button-size-default);
+}
+
+.ffyxRu:hover {
+  text-decoration: none;
+}
+
+.ffyxRu:disabled {
+  cursor: not-allowed;
+}
+
+.cuTdJK {
+  display: inline-flex;
+  position: relative;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  font-weight: var(--font-weight-semibold);
+  border-top-left-radius: var(--border-radius-medium);
+  border-bottom-left-radius: var(--border-radius-medium);
+  font-size: var(--button-text-default);
+  height: var(--button-size-default);
+  opacity: 0.5;
+}
+
+.cuTdJK:hover {
+  text-decoration: none;
+}
+
+.cuTdJK:disabled {
+  cursor: not-allowed;
+}
+
+.YKPOl {
+  display: inline-flex;
+  position: relative;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  font-weight: var(--font-weight-semibold);
+  border-top-right-radius: var(--border-radius-medium);
+  border-bottom-right-radius: var(--border-radius-medium);
+  font-size: var(--button-text-default);
+  height: var(--button-size-default);
+}
+
+.YKPOl:hover {
+  text-decoration: none;
+}
+
+.YKPOl:disabled {
+  cursor: not-allowed;
+}
+
+.fBnhfe {
+  background-color: var(--color-background-button-disabled);
+  color: var(--color-text-button-disabled);
+}
+
+.dDxrgX {
+  background-color: var(--color-background-button-primary-default);
+  color: var(--color-text-button-primary);
+}
+
+.dDxrgX:hover {
+  background-color: var(--color-background-button-primary-hover);
+  color: var(--color-text-button-primary);
+}
+
+.dDxrgX:active {
+  background-color: var(--color-background-button-primary-active);
+}
+
+.dDxrgX:hover:active {
+  background-color: var(--color-background-button-primary-active);
+}
+
+.bmSivE {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 2rem;
+}
+
+.iiHmsB {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-flex: 0;
+  flex-grow: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: var(--button-padding-x);
+  padding-right: var(--button-padding-x);
+}
+
+.bpmMJt {
+  width: var(--button-size-default);
+  transition-duration: var(--timing-short);
+  transition-property: background-color, color;
+  transition-timing-function: ease;
+  background-color: var(--color-background-button-status);
+  color: var(--color-text-button-success);
+}
+
+.bpmMJt:hover {
+  background-color: var(--color-background-button-status-hover);
+  color: var(--color-text-button-alert);
+}
+
+.bpmMJt:hover:active {
+  background-color: var(--color-background-button-status-active);
+  color: var(--color-text-button-alert-active);
+}
+
+.bGcGvb {
+  transition-duration: var(--timing-short);
+  transition-property: opacity;
+  transition-timing-function: ease;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: var(--button-size-default);
+  opacity: 1;
+  margin-top: 0px;
+}
+
+.ScStatusAlertButton-sc-1ynvewi-0:hover .bGcGvb.bGcGvb {
+  opacity: 0;
+}
+
+.cEeDic {
+  transition-duration: var(--timing-short);
+  transition-property: opacity;
+  transition-timing-function: ease;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: var(--button-size-default);
+  opacity: 0;
+  margin-top: calc(-1 * var(--button-size-default));
+}
+
+.ScStatusAlertButton-sc-1ynvewi-0:hover .cEeDic.cEeDic {
+  opacity: 1;
+}
+
+.fFRvHa {
+  text-decoration: none;
+  color: inherit;
+}
+
+.fFRvHa:visited {
+  color: inherit;
+}
+
+.fFRvHa:active {
+  color: var(--color-text-link-active);
+}
+
+.fFRvHa:hover {
+  text-decoration: underline;
+  color: var(--color-text-link-hover);
+}
+
+.fmDZTb {
+  position: relative;
+  background-color: inherit;
+  width: 5rem;
+  height: 5rem;
+}
+
+.lwRnn {
+  display: inline-flex;
+  border-left-width: var(--border-width-default);
+  border-left-style: solid;
+  border-left-color: transparent;
+}
+
+.jKsLNT {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: var(--button-size-default);
+}
+
+.eVnpOe {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 100%;
+  list-style: none;
+  margin: 0px -1rem;
+}
+
+.eVnpOe>* {
+  flex: 1 0 auto;
+  -webkit-box-flex: 1;
+  width: 30rem;
+  max-width: 50%;
+  padding: 0px 1rem;
+}
+
+.AWsdr {
+  order: 32767;
+}
+
+/*! CSS Used from: https://static.twitchcdn.net/assets/pages.following.components.following-channel-page.components.following-channel-page-359142ba50c2138d510e.css */
+.user-card__buttons-container {
+  opacity: 0;
+}
+
+.user-card:hover .user-card__buttons-container {
+  opacity: 1;
+}
+
+.channel-follow-listing--card {
+  min-width: 31rem;
+}
+
+/*! CSS Used from: https://static.twitchcdn.net/assets/core-e90e0cfd8095b13877ed.css */
+a,
+div,
+figure,
+img,
+p {
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+figure {
+  display: block;
+}
+
+button {
+  text-align: inherit;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  border: none;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+a {
+  color: #bf94ff;
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a970ff;
+  color: var(--color-text-link-hover);
+  text-decoration: underline;
+}
+
+button {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.js-focus-visible :focus:not([data-focus-visible-added]) {
+  outline: none;
+}
+
+p {
+  font-size: 1.3rem;
+  font-size: var(--font-size-6);
+  line-height: 1.5;
+}

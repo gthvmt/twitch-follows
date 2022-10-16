@@ -1,0 +1,24 @@
+{
+  "name": "Twitch follows",
+  "version": "0.0.1",
+  "description": "Shows you what accounts an account follows and shit",
+  "permissions": ["webRequest", "cookies"],
+  "host_permissions": ["*://*.twitch.tv/*"],
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["*://*.twitch.tv/*"],
+      "js": ["src/api.js", "src/main.js"],
+      "css": ["src/styles.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/usercard.html"],
+      "matches": ["*://*.twitch.tv/*"]
+    }
+  ]
+}
