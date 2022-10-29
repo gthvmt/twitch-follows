@@ -9,7 +9,7 @@
     {
       "matches": ["*://*.twitch.tv/*"],
       "js": ["src/api.js", "src/main.js"],
-      "css": ["src/styles.css"]
+      "css": ["src/usercard.css", "src/tab.css"]
     }
   ],
   "background": {
@@ -17,7 +17,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["src/usercard.html"],
+      "resources": ["src/usercard.html", "src/tab.html"],
       "matches": ["*://*.twitch.tv/*"]
     }
   ]

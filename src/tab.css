@@ -1,0 +1,14 @@
+li.unselected > a > div {
+  color: unset !important;
+}
+li.unselected>a>div>div>div {
+  display: none !important;
+}
+
+li.selected>a>div {
+  color: var(--color-text-link) !important;
+}
+
+li.selected>a>div>div>div {
+  display: unset !important;
+}

@@ -8,7 +8,7 @@ const getAuthToken = async () => {
   }));
 };
 
-const getFollows = async (user, cursor = "") => {
+const getFollows = async (user, cursor = "", count = 90) => {
   const request = await fetch("https://gql.twitch.tv/gql", {
     method: "post",
     headers: {
@@ -36,7 +36,7 @@ const getFollows = async (user, cursor = "") => {
         `,
       variables: {
         login: user,
-        count: 100,
+        count: count,
         cursor: cursor,
       },
     }),

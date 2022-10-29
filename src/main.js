@@ -1,11 +1,14 @@
 const SELECTED_CLASS = "bvruMV";
+const SELECTED_CLASS_CHILD = "eKkyLe";
 const UNSELECTED_CLASS = "gcMVlg";
+const UNSELECTED_CLASS_CHILD = "kfuKtQ";
 const ACTIVE_TAB_INDICATOR = "ACTIVE_TAB_INDICATOR";
 const DATA_TEST_SELECTOR = "data-test-selector";
 const ACTIVE_TAB_INDICATOR_CLASSES = "ScActiveIndicator-sc-i1y2af-1 iaTrsR";
 const TAB_CONTENT_CLASS = "home__lower-content";
 
 let _userCardHtml = null;
+let _tabHtml = null;
 
 (async () => {
   const channelRoot = document.querySelector(".channel-root");
@@ -30,46 +33,54 @@ let _userCardHtml = null;
 
 const addFollowsTab = (parent) => {
   const tabList = parent.querySelector('[role="tablist"]');
-  const tabDiv = tabList.children[1].cloneNode(true);
-  tabDiv.id = "follows-tab";
-  unselectTab(tabDiv);
-  tabDiv.querySelector("p").innerText = "Follows";
-  tabDiv.setAttribute("data-index", "5");
+  const tabElement = tabList.children[1].cloneNode(true);
+  tabElement.id = "follows-tab";
+  unselectTab(tabElement);
+  tabElement.querySelector("p").innerText = "Follows";
+  tabElement.setAttribute("data-index", "5");
   // tab.firstChild.removeAttribute("href");
-  tabDiv.firstChild.href = "/gthvmt/follows";
-  tabDiv.onclick = async (e) => await onFollowsTabClick(e, tabDiv);
-  tabList.appendChild(tabDiv);
+  tabElement.firstChild.href = "/gthvmt/follows";
+  tabElement.onclick = async (e) => await onFollowsTabClick(e, tabElement);
+  tabList.appendChild(tabElement);
   console.log("follows tab added.");
 };
 
 const onFollowsTabClick = async (e, followsTab) => {
   e.preventDefault();
+  // history.pushState("follows", "", "/" + getUserFromUrl() + "/follows");
   selectTab(followsTab);
-  await addFollowsTabContent(document);
+  // await addFollowsTabContent(document);
 };
 
-const unselectTab = (tabDiv) => {
-  const textContainer = tabDiv.firstChild.firstChild;
+const unselectTab = (tabElement) => {
+  const textContainer = tabElement.firstChild.firstChild;
   if (textContainer.classList.contains(SELECTED_CLASS)) {
+    tabElement.firstChild.setAttribute("aria-selected", "false");
+    tabElement.firstChild.setAttribute("tabindex", -1);
     textContainer.classList.remove(SELECTED_CLASS);
+    textContainer.firstChild.classList.remove(SELECTED_CLASS_CHILD);
     textContainer.classList.add(UNSELECTED_CLASS);
+    textContainer.firstChild.classList.add(UNSELECTED_CLASS_CHILD);
     const layoutDiv = textContainer.children[1];
     layoutDiv.removeChild(layoutDiv.firstChild);
   }
 };
 
-const selectTab = (tabDiv) => {
-  //TODO
-  const tabList = tabDiv.parentElement;
+const selectTab = (tabElement) => {
+  const tabList = tabElement.parentElement;
   const selectedTab = Array.from(tabList.children).find((e) =>
     e.firstChild.firstChild.classList.contains(SELECTED_CLASS)
   );
   if (selectedTab) {
     unselectTab(selectedTab);
   }
-  const textContainer = tabDiv.firstChild.firstChild;
+  tabElement.firstChild.setAttribute("aria-selected", "true");
+  tabElement.firstChild.setAttribute("tabindex", 0);
+  const textContainer = tabElement.firstChild.firstChild;
   textContainer.classList.remove(UNSELECTED_CLASS);
+  textContainer.firstChild.classList.remove(UNSELECTED_CLASS_CHILD);
   textContainer.classList.add(SELECTED_CLASS);
+  textContainer.firstChild.classList.add(SELECTED_CLASS_CHILD);
   const layoutDiv = textContainer.children[1];
   const activeTabIndicator = document.createElement("div");
   activeTabIndicator.setAttribute(DATA_TEST_SELECTOR, ACTIVE_TAB_INDICATOR);
@@ -79,32 +90,51 @@ const selectTab = (tabDiv) => {
 
 const addFollowsTabContent = async (parent) => {
   const contentDiv = parent.querySelector("." + TAB_CONTENT_CLASS);
-  const user = location.href.split(".tv/")[1].trimEnd("/");
-  const follows = await getFollows(user);
+  const user = getUserFromUrl();
+
   const container = document.createElement("div");
   container.className = "ScTower-sc-1dei8tr-0 eVnpOe tw-tower";
-  follows.forEach(async (follow) => {
-    container.appendChild(await createUserCard(follow.node));
-  });
   contentDiv.innerHTML = "";
   contentDiv.appendChild(container);
+
+  let cursor = null;
+  do {
+    const follows = await getFollows(user, cursor, 50);
+    if (follows) {
+      follows.forEach(async (follow) => {
+        container.appendChild(await createUserCard(follow.node));
+      });
+      cursor = follows.length > 0 ? follows[follows.length - 1].cursor : null;
+    } else {
+      console.log("follows couldn't be loaded :( refresh the page and try again");
+    }
+  } while (cursor);
 };
 
 const createUserCard = async (channel) => {
-  console.log("channel is", channel);
   const html = (await getUserCardHtml())
     .replaceAll(
-      "##banner##",
+      "{{banner}}",
       channel.bannerImageURL ??
         "https://static.twitchcdn.net/assets/bg_glitch_pattern-47a314b8795e4a70661d.png"
     )
-    .replaceAll("##avatar##", channel.profileImageURL)
-    .replaceAll("##displayName##", channel.displayName)
-    .replaceAll("##login##", channel.login);
+    .replaceAll("{{avatar}}", channel.profileImageURL)
+    .replaceAll("{{displayName}}", channel.displayName)
+    .replaceAll("{{login}}", channel.login);
 
+  return textToElement(html);
+};
+
+const createTab = async (tabName) => {
+  const html = (await getTabHtml())
+    .replaceAll("{{login}}", getUserFromUrl())
+    .replaceAll("{{tabName}}", tabName);
+  return textToElement(html);
+};
+
+const textToElement = (text) => {
   const div = document.createElement("div");
-  div.innerHTML = html.trim();
-  console.log("content is", div.firstChild);
+  div.innerHTML = text.trim();
   return div.firstChild;
 };
 
@@ -115,4 +145,12 @@ const append = (div, child) => {
 
 const getUserCardHtml = async () => {
   return (_userCardHtml ??= await (await fetch(chrome.runtime.getURL("src/usercard.html"))).text());
+};
+
+const getTabHtml = async () => {
+  return (_tabHtml ??= await (await fetch(chrome.runtime.getURL("src/tab.html"))).text());
+};
+
+const getUserFromUrl = () => {
+  return location.href.split(".tv/")[1].split("/")[0];
 };
