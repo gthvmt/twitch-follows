@@ -9,16 +9,18 @@ const TAB_CONTENT_CLASS = "home__lower-content";
 
 let _userCardHtml = null;
 let _tabHtml = null;
+let _followButtonHtml = null;
+let _unfollowButtonHtml = null;
 
 (async () => {
   const channelRoot = document.querySelector(".channel-root");
   if (channelRoot) {
-    new MutationObserver((mutations) => {
+    new MutationObserver(async (mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "childList") {
           for (const node of mutation.addedNodes) {
             if (node.classList && node.classList.contains("home-header-sticky")) {
-              addFollowsTab(node);
+              await addFollowsTab(node);
             }
           }
         }
@@ -31,61 +33,50 @@ let _tabHtml = null;
   }
 })();
 
-const addFollowsTab = (parent) => {
+const addFollowsTab = async (parent) => {
   const tabList = parent.querySelector('[role="tablist"]');
-  const tabElement = tabList.children[1].cloneNode(true);
+
+  for (const tabElement of tabList.children) {
+    tabElement.addEventListener("mousedown", (event) => {
+      selectTab(tabElement);
+    });
+  }
+
+  const tabElement = await createTab("Follows");
   tabElement.id = "follows-tab";
-  unselectTab(tabElement);
-  tabElement.querySelector("p").innerText = "Follows";
-  tabElement.setAttribute("data-index", "5");
-  // tab.firstChild.removeAttribute("href");
-  tabElement.firstChild.href = "/gthvmt/follows";
   tabElement.onclick = async (e) => await onFollowsTabClick(e, tabElement);
+  unselectTab(tabElement);
   tabList.appendChild(tabElement);
-  console.log("follows tab added.");
 };
 
 const onFollowsTabClick = async (e, followsTab) => {
   e.preventDefault();
-  // history.pushState("follows", "", "/" + getUserFromUrl() + "/follows");
   selectTab(followsTab);
-  // await addFollowsTabContent(document);
+  history.pushState("follows", "", "/" + getUserFromUrl() + "/follows");
+  await addFollowsTabContent(document);
 };
 
 const unselectTab = (tabElement) => {
-  const textContainer = tabElement.firstChild.firstChild;
-  if (textContainer.classList.contains(SELECTED_CLASS)) {
-    tabElement.firstChild.setAttribute("aria-selected", "false");
-    tabElement.firstChild.setAttribute("tabindex", -1);
-    textContainer.classList.remove(SELECTED_CLASS);
-    textContainer.firstChild.classList.remove(SELECTED_CLASS_CHILD);
-    textContainer.classList.add(UNSELECTED_CLASS);
-    textContainer.firstChild.classList.add(UNSELECTED_CLASS_CHILD);
-    const layoutDiv = textContainer.children[1];
-    layoutDiv.removeChild(layoutDiv.firstChild);
-  }
+  tabElement.classList.remove("selected");
+  tabElement.classList.add("unselected");
 };
 
 const selectTab = (tabElement) => {
   const tabList = tabElement.parentElement;
-  const selectedTab = Array.from(tabList.children).find((e) =>
-    e.firstChild.firstChild.classList.contains(SELECTED_CLASS)
-  );
-  if (selectedTab) {
-    unselectTab(selectedTab);
+  if (!tabList) {
+    return;
   }
-  tabElement.firstChild.setAttribute("aria-selected", "true");
-  tabElement.firstChild.setAttribute("tabindex", 0);
-  const textContainer = tabElement.firstChild.firstChild;
-  textContainer.classList.remove(UNSELECTED_CLASS);
-  textContainer.firstChild.classList.remove(UNSELECTED_CLASS_CHILD);
-  textContainer.classList.add(SELECTED_CLASS);
-  textContainer.firstChild.classList.add(SELECTED_CLASS_CHILD);
-  const layoutDiv = textContainer.children[1];
-  const activeTabIndicator = document.createElement("div");
-  activeTabIndicator.setAttribute(DATA_TEST_SELECTOR, ACTIVE_TAB_INDICATOR);
-  activeTabIndicator.className = ACTIVE_TAB_INDICATOR_CLASSES;
-  layoutDiv.appendChild(activeTabIndicator);
+  const selectedTabs = Array.from(tabList.children).filter(
+    (e) =>
+      e.classList.contains("selected") ||
+      e.firstChild?.firstChild?.classList?.contains(SELECTED_CLASS)
+  );
+  selectedTabs.forEach((tab) => {
+    unselectTab(tab);
+  });
+
+  tabElement.classList.remove("unselected");
+  tabElement.classList.add("selected");
 };
 
 const addFollowsTabContent = async (parent) => {
@@ -95,14 +86,25 @@ const addFollowsTabContent = async (parent) => {
   const container = document.createElement("div");
   container.className = "ScTower-sc-1dei8tr-0 eVnpOe tw-tower";
   contentDiv.innerHTML = "";
+  contentDiv.style.paddingTop = "30px";
   contentDiv.appendChild(container);
 
   let cursor = null;
+
+  const ownFollows = [];
+  const currentUser = await getCurrentUser();
+  do {
+    const follows = await getFollows(currentUser, cursor, 100);
+    ownFollows.push(...follows);
+    cursor = follows.length > 0 ? follows[follows.length - 1].cursor : null;
+  } while (cursor)
+
+  cursor = null;
   do {
     const follows = await getFollows(user, cursor, 50);
     if (follows) {
       follows.forEach(async (follow) => {
-        container.appendChild(await createUserCard(follow.node));
+        container.appendChild(await createUserCard(follow.node, ownFollows.some(f => f.node.id == follow.node.id)));
       });
       cursor = follows.length > 0 ? follows[follows.length - 1].cursor : null;
     } else {
@@ -111,16 +113,22 @@ const addFollowsTabContent = async (parent) => {
   } while (cursor);
 };
 
-const createUserCard = async (channel) => {
+const createUserCard = async (channel, isFollowing) => {
+  const unfollowButtonHtml = await getUnfollowButtonHtml();
+  const followButtonHtml = await getFollowButtonHtml();
+
   const html = (await getUserCardHtml())
     .replaceAll(
       "{{banner}}",
       channel.bannerImageURL ??
-        "https://static.twitchcdn.net/assets/bg_glitch_pattern-47a314b8795e4a70661d.png"
+      "https://static.twitchcdn.net/assets/bg_glitch_pattern-47a314b8795e4a70661d.png"
     )
     .replaceAll("{{avatar}}", channel.profileImageURL)
     .replaceAll("{{displayName}}", channel.displayName)
-    .replaceAll("{{login}}", channel.login);
+    .replaceAll("{{login}}", channel.login)
+    .replaceAll("{{FollowToggleButton}}", isFollowing ? unfollowButtonHtml : followButtonHtml)
+
+  //TODO: set button functions
 
   return textToElement(html);
 };
@@ -150,6 +158,14 @@ const getUserCardHtml = async () => {
 const getTabHtml = async () => {
   return (_tabHtml ??= await (await fetch(chrome.runtime.getURL("src/tab.html"))).text());
 };
+
+const getFollowButtonHtml = async () => {
+  return (_followButtonHtml ??= await (await fetch(chrome.runtime.getURL("src/follow-button.html"))).text());
+}
+
+const getUnfollowButtonHtml = async () => {
+  return (_unfollowButtonHtml ??= await (await fetch(chrome.runtime.getURL("src/unfollow-button.html"))).text());
+}
 
 const getUserFromUrl = () => {
   return location.href.split(".tv/")[1].split("/")[0];

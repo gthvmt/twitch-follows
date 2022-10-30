@@ -1,3 +1,21 @@
+/* Custom CSS */
+div.user-card__buttons-container {
+  justify-content: center !important;
+  opacity: 100%;
+}
+
+button {
+  background-color: var(--color-background-button);
+}
+
+button[aria-label="Unfollow"]:hover {
+  background-color: red;
+}
+
+button[aria-label="Follow"]:hover {
+  background-color: green;
+}
+
 /*! CSS Used from: Embedded */
 .dWdTjI {
   -webkit-box-flex: 0 !important;

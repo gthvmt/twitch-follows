@@ -1,7 +1,7 @@
-chrome.runtime.onMessage.addListener((_request, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   chrome.cookies.get(
     {
-      name: "auth-token",
+      name: request,
       url: "https://www.twitch.tv",
     },
     (cookie) => sendResponse(cookie.value)

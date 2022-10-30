@@ -10,5 +10,5 @@ li.selected>a>div {
 }
 
 li.selected>a>div>div>div {
-  display: unset !important;
+  display: block !important;
 }

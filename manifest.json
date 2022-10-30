@@ -17,7 +17,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["src/usercard.html", "src/tab.html"],
+      "resources": ["src/usercard.html", "src/tab.html", "src/follow-button.html","src/unfollow-button.html"],
       "matches": ["*://*.twitch.tv/*"]
     }
   ]
