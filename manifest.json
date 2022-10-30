@@ -2,14 +2,28 @@
   "name": "Twitch follows",
   "version": "0.0.1",
   "description": "Shows you what accounts an account follows and shit",
-  "permissions": ["webRequest", "cookies"],
-  "host_permissions": ["*://*.twitch.tv/*"],
+  "permissions": [
+    "webRequest",
+    "cookies"
+  ],
+  "host_permissions": [
+    "*://*.twitch.tv/*"
+  ],
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": ["*://*.twitch.tv/*"],
-      "js": ["src/api.js", "src/main.js"],
-      "css": ["src/usercard.css", "src/tab.css"]
+      "matches": [
+        "*://*.twitch.tv/*"
+      ],
+      "js": [
+        "src/api.js",
+        "src/main.js"
+      ],
+      "css": [
+        "src/usercard.css",
+        "src/tab.css"
+      ],
+      "run_at": "document_start"
     }
   ],
   "background": {
@@ -17,8 +31,16 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["src/usercard.html", "src/tab.html", "src/follow-button.html","src/unfollow-button.html"],
-      "matches": ["*://*.twitch.tv/*"]
+      "resources": [
+        "src/usercard.html",
+        "src/tab.html",
+        "src/follow-button.html",
+        "src/unfollow-button.html",
+        "src/hook-fetch.js"
+      ],
+      "matches": [
+        "*://*.twitch.tv/*"
+      ]
     }
   ]
 }

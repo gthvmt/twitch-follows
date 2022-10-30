@@ -12,9 +12,10 @@ let _tabHtml = null;
 let _followButtonHtml = null;
 let _unfollowButtonHtml = null;
 
-(async () => {
-  const channelRoot = document.querySelector(".channel-root");
-  if (channelRoot) {
+document.addEventListener("DOMContentLoaded", async (event) => {
+  // const channelRoot = document.querySelector(".channel-root");
+
+  if (document) {
     new MutationObserver(async (mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "childList") {
@@ -25,13 +26,13 @@ let _unfollowButtonHtml = null;
           }
         }
       }
-    }).observe(channelRoot, {
+    }).observe(document, {
       subtree: true,
       childList: true,
     });
     console.log("attached");
   }
-})();
+});
 
 const addFollowsTab = async (parent) => {
   const tabList = parent.querySelector('[role="tablist"]');
@@ -97,14 +98,19 @@ const addFollowsTabContent = async (parent) => {
     const follows = await getFollows(currentUser, cursor, 100);
     ownFollows.push(...follows);
     cursor = follows.length > 0 ? follows[follows.length - 1].cursor : null;
-  } while (cursor)
+  } while (cursor);
 
   cursor = null;
   do {
     const follows = await getFollows(user, cursor, 50);
     if (follows) {
       follows.forEach(async (follow) => {
-        container.appendChild(await createUserCard(follow.node, ownFollows.some(f => f.node.id == follow.node.id)));
+        container.appendChild(
+          await createUserCard(
+            follow.node,
+            ownFollows.some((f) => f.node.id == follow.node.id)
+          )
+        );
       });
       cursor = follows.length > 0 ? follows[follows.length - 1].cursor : null;
     } else {
@@ -114,23 +120,41 @@ const addFollowsTabContent = async (parent) => {
 };
 
 const createUserCard = async (channel, isFollowing) => {
-  const unfollowButtonHtml = await getUnfollowButtonHtml();
-  const followButtonHtml = await getFollowButtonHtml();
-
   const html = (await getUserCardHtml())
     .replaceAll(
       "{{banner}}",
       channel.bannerImageURL ??
-      "https://static.twitchcdn.net/assets/bg_glitch_pattern-47a314b8795e4a70661d.png"
+        "https://static.twitchcdn.net/assets/bg_glitch_pattern-47a314b8795e4a70661d.png"
     )
+    .replaceAll("{{id}}", channel.id)
     .replaceAll("{{avatar}}", channel.profileImageURL)
     .replaceAll("{{displayName}}", channel.displayName)
-    .replaceAll("{{login}}", channel.login)
-    .replaceAll("{{FollowToggleButton}}", isFollowing ? unfollowButtonHtml : followButtonHtml)
+    .replaceAll("{{login}}", channel.login);
 
-  //TODO: set button functions
+  const card = textToElement(html);
+  return setFollowToggleButton(card, isFollowing);
+};
 
-  return textToElement(html);
+const setFollowToggleButton = async (card, isFollowing) => {
+  const unfollowButtonHtml = await getUnfollowButtonHtml();
+  const followButtonHtml = await getFollowButtonHtml();
+
+  const button = textToElement(isFollowing ? unfollowButtonHtml : followButtonHtml);
+  button.onclick = async () => {
+    const cursor = button.style.cursor;
+    button.disabled = true;
+    button.style.cursor = "progress";
+    const success = isFollowing ? await unfollow(card.id) : await follow(card.id, false);
+    if (success) {
+      setFollowToggleButton(card, !isFollowing);
+    }
+    button.disabled = false;
+    button.style.cursor = cursor;
+  };
+  const buttonContainer = card.querySelector("div.user-card__buttons-container");
+  buttonContainer.innerHTML = "";
+  buttonContainer.appendChild(button);
+  return card;
 };
 
 const createTab = async (tabName) => {
@@ -160,12 +184,16 @@ const getTabHtml = async () => {
 };
 
 const getFollowButtonHtml = async () => {
-  return (_followButtonHtml ??= await (await fetch(chrome.runtime.getURL("src/follow-button.html"))).text());
-}
+  return (_followButtonHtml ??= await (
+    await fetch(chrome.runtime.getURL("src/follow-button.html"))
+  ).text());
+};
 
 const getUnfollowButtonHtml = async () => {
-  return (_unfollowButtonHtml ??= await (await fetch(chrome.runtime.getURL("src/unfollow-button.html"))).text());
-}
+  return (_unfollowButtonHtml ??= await (
+    await fetch(chrome.runtime.getURL("src/unfollow-button.html"))
+  ).text());
+};
 
 const getUserFromUrl = () => {
   return location.href.split(".tv/")[1].split("/")[0];
