@@ -1,6 +1,6 @@
 # Features
 
-![https://images2.imgbox.com/30/25/ytKdokCa_o.png](screenshot)
+![screenshot](https://images2.imgbox.com/30/25/ytKdokCa_o.png)
 
 In the old twitch UI you could see which channels a channel follows. As pointed out in e.g. [this](https://www.reddit.com/d9l2go) reddit thread the new UI does not have this feature anymore. This addon aims to add this feature back (+ add a few new handy things).
 
