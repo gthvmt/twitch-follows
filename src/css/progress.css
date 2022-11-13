@@ -1,0 +1,24 @@
+div#massfollow-progress-container {
+  --height: 1.5rem;
+  position: relative;
+  background: rgba(0,0,0,0.5);
+  height: var(--height);
+  bottom: var(--height);
+  border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
+}
+
+div#massfollow-progress {
+  background: #9146FF;
+  /* padding: 5px 0px; */
+  text-align: center;
+  height: 100%;
+  border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
+}
+
+span#massfollow-progress-text {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  font-size: 1rem;
+}

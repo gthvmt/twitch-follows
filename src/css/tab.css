@@ -12,3 +12,8 @@ li.selected>a>div {
 li.selected>a>div>div>div {
   display: block !important;
 }
+
+#mass-follow-button a:hover {
+  background-color: green;
+  cursor: pointer;
+}

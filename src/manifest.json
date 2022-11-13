@@ -1,6 +1,7 @@
 {
+  "manifest_version": 3,
   "name": "Twitch follows",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Shows you what accounts an account follows and shit",
   "permissions": [
     "webRequest",
@@ -9,38 +10,45 @@
   "host_permissions": [
     "*://*.twitch.tv/*"
   ],
-  "manifest_version": 3,
   "content_scripts": [
     {
       "matches": [
         "*://*.twitch.tv/*"
       ],
       "js": [
-        "src/api.js",
-        "src/main.js"
+        "api.js",
+        "main.js"
       ],
       "css": [
-        "src/usercard.css",
-        "src/tab.css"
+        "css/usercard.css",
+        "css/tab.css",
+        "css/progress.css"
       ],
       "run_at": "document_start"
     }
   ],
   "background": {
-    "service_worker": "src/background.js"
+    "service_worker": "background.js"
   },
   "web_accessible_resources": [
     {
       "resources": [
-        "src/usercard.html",
-        "src/tab.html",
-        "src/follow-button.html",
-        "src/unfollow-button.html",
-        "src/hook-fetch.js"
+        "html/usercard.html",
+        "html/tab.html",
+        "html/follow-button.html",
+        "html/unfollow-button.html",
+        "html/massfollow-button.html",
+        "hook-fetch.js"
       ],
       "matches": [
         "*://*.twitch.tv/*"
       ]
     }
-  ]
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
 }
