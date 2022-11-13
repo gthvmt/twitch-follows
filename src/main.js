@@ -61,7 +61,7 @@ const onFollowsTabClick = async (e, followsTab) => {
   selectTab(followsTab);
   history.pushState("follows", "", "/" + getUserFromUrl() + "/follows");
   await addFollowsTabContent(document);
-  await addMassUnfollowButton();
+  // await addMassUnfollowButton();
   await addMassFollowButton();
 };
 
