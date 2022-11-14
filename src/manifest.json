@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Twitch follows",
   "version": "0.1.0",
-  "description": "Shows you what accounts an account follows and shit",
+  "description": "Lets you see and follow who a channel follows",
   "permissions": [
     "webRequest",
     "cookies"
